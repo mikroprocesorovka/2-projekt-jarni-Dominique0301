@@ -123,7 +123,7 @@ int main(void)
             printf("\r  %5d     ", bagr);
 						bagr += check_ncoder();
 						lcd_gotoxy(0,1);
-						sprintf(text, "cislo=%Su",bagr);
+						sprintf(text, "cislo=%6d",bagr);
 						lcd_puts(text);
         }
 				
@@ -137,6 +137,7 @@ int main(void)
 						minule_led = 0;
 					}
 				}
+				bagr += check_ncoder();
 
     }
 }
