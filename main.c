@@ -76,15 +76,15 @@ void setup(void)
 }
 
 int minule = 0;
-uint16_t time_A = 0;
+/*uint16_t time_A = 0;
 uint16_t time_B = 0;
 
-int cislo_A = 0;
-char text[] = "";
+int cislo_A = 0;*/
+char text[10];
 
 int8_t check_ncoder(void)
 {
-
+		
     if (minule == 0 && NCODER_GET_CLK == 1) {
         // vzestupn? hrana 
         minule = 1;
@@ -114,15 +114,16 @@ int main(void)
     int16_t bagr = 0;
     setup();
 		lcd_init();
-		lcd_gotoxy(0,0);
+		//lcd_gotoxy(0,0);
 
     while (1) {
 			
-        if (milis() - time > 777) { 
+        if (milis() - time > 33) { 
             time = milis();
-            
-						lcd_gotoxy(0,0);
-						sprintf(text, "cislo=%Su",25);
+            printf("\r  %5d     ", bagr);
+						bagr += check_ncoder();
+						lcd_gotoxy(0,1);
+						sprintf(text, "cislo=%Su",bagr);
 						lcd_puts(text);
         }
 				
