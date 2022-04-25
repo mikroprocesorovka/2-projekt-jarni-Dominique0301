@@ -25,47 +25,12 @@
 #define NCODER_GET_DATA ( GPIO_ReadInputPin(NCODER_DATA_PORT, NCODER_DATA_PIN)!=RESET)
 #define NCODER_GET_SW ( GPIO_ReadInputPin(NCODER_SW_PORT, NCODER_SW_PIN )==RESET)
 
-//UART komunikace
-char putchar (char c)
-{
-  /* Write a character to the UART1 */
-  UART1_SendData8(c);
-  /* Loop until the end of transmission */
-  while (UART1_GetFlagStatus(UART1_FLAG_TXE) == RESET);
-
-  return (c);
-}
-
-char getchar (void) //funkce cte(prij?m? data) vstup z UART
-{
-  int c = 0;
-  /* Loop until the Read data register flag is SET */
-  while (UART1_GetFlagStatus(UART1_FLAG_RXNE) == RESET);
-	c = UART1_ReceiveData8();
-  return (c);
-}
-
-
-//Povoleni UART1 (Vyuzivane na komunikaci s PC)
-void init_uart1(void)
-{
-    UART1_DeInit();         // smazat starou konfiguraci
-		UART1_Init((uint32_t)115200, //Nova konfigurace
-									UART1_WORDLENGTH_8D, 
-									UART1_STOPBITS_1, 
-									UART1_PARITY_NO,
-									UART1_SYNCMODE_CLOCK_DISABLE, 
-									UART1_MODE_TXRX_ENABLE);
-}
-
-
 
 void setup(void)
 {
     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);      // taktovat MCU na 16MHz
 
     init_milis(); //Initializace milis
-    init_uart1(); //Povoleni komunikace s PC
 		
 		GPIO_Init(LED_PORT, LED_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
     GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_FL_NO_IT);
@@ -122,7 +87,7 @@ int main(void)
             time = milis();
             printf("\r  %5d     ", bagr);
 						bagr += check_ncoder();
-						lcd_gotoxy(0,1);
+						lcd_gotoxy(0,0);
 						sprintf(text, "cislo=%6d",bagr);
 						lcd_puts(text);
         }
