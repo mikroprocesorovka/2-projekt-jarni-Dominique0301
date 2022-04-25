@@ -41,10 +41,6 @@ void setup(void)
 }
 
 int minule = 0;
-/*uint16_t time_A = 0;
-uint16_t time_B = 0;
-
-int cislo_A = 0;*/
 char text[10];
 
 int8_t check_ncoder(void)
@@ -76,7 +72,7 @@ int main(void)
     uint32_t time = 0;
 		uint32_t time_btn = 0;
 		int8_t minule_led = 0;
-    int16_t bagr = 0;
+    int16_t luxus = 0;
     setup();
 		lcd_init();
 		//lcd_gotoxy(0,0);
@@ -85,10 +81,9 @@ int main(void)
 			
         if (milis() - time > 33) { 
             time = milis();
-            printf("\r  %5d     ", bagr);
-						bagr += check_ncoder();
+						luxus += check_ncoder();
 						lcd_gotoxy(0,0);
-						sprintf(text, "cislo=%6d",bagr);
+						sprintf(text, "cislo=%6d",luxus);
 						lcd_puts(text);
         }
 				
@@ -102,7 +97,7 @@ int main(void)
 						minule_led = 0;
 					}
 				}
-				bagr += check_ncoder();
+				luxus += check_ncoder();
 
     }
 }
